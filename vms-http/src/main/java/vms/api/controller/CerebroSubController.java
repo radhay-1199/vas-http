@@ -72,6 +72,8 @@ public class CerebroSubController {
 			return 1;
 		else if ("SMS".equals(channel))
 			return 4;
+		else if("CC".equals(channel))
+				return 6;
 		else
 			return 1;
 	}
