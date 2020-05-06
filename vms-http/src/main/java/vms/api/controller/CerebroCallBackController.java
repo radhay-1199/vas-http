@@ -113,7 +113,7 @@ public class CerebroCallBackController {
 
 		Date expireDate = null;
 		if (verificationResultCode == 1) {
-			if ("VMS".equals(req.getAppid())) {
+			if ("AGR".equals(req.getAppid()) || "MM".equals(req.getAppid())) {
 				expireDate = insertIntoVMSUsers(req, renewalConsented);
 			}
 			resp.setSuccess(true);
@@ -143,7 +143,7 @@ public class CerebroCallBackController {
 		vmsUserRepo.insertIntoUsers(req.getMsisdn(), req.getPackId(), nextRenewal, req.getLang(), req.getChannel(),
 				renewal);
 
-		ActivationConfig actConfig = activationConfigRepo.getActivationConfig( "VMS", req.getPackId() );
+		ActivationConfig actConfig = activationConfigRepo.getActivationConfig( req.getAppid(), req.getPackId() );
 		if (actConfig == null) {
 			log.info("Activation Config missing for packId=" + req.getPackId());
 			return nextRenewal;

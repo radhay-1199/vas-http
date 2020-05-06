@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>vms</groupId>
-	<artifactId>vms-sms-mo</artifactId>
+	<artifactId>vas-sms-mo</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
@@ -49,11 +49,21 @@
 			<version>${spring.boot.version}</version>
 
 		</dependency>
-
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${spring.boot.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate.validator</groupId>
+					<artifactId>hibernate-validator</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

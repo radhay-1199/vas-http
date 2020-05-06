@@ -39,15 +39,21 @@ public class UserController {
 
 			text = text.toUpperCase();
 			String data = null;
+			String service="SUBAGR";
+			if("5253".equals(to)) {
+				service="SUBAGR";
+			}
+			if("5251".equals(to)) {
+				service="SUBMM";
+			}
 			
 			
-
 			if (text.indexOf("UN") != -1) {
-				data = "12345#12345#UNSUB#" + from + "#UN#";
+				data = "12345#12345#UN"+service+"#" + from + "#UN#";
 			} else {
 				text = text.replaceAll("SUB", "");
 				text = text.replaceAll(" ", "");
-				data = "12345#12345#SUB#" + from + "#" + text + "#";
+				data = "12345#12345#"+service+"#" + from + "#" + text + "#";
 			}
 			util.sendOverUdp(data, config.getFwIp(), config.getFwPort());
 		}

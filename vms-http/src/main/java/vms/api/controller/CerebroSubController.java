@@ -74,6 +74,8 @@ public class CerebroSubController {
 			return 4;
 		else if("CC".equals(channel))
 				return 6;
+		else if("USSD".equals(channel))
+			return 3;
 		else
 			return 1;
 	}
@@ -81,7 +83,8 @@ public class CerebroSubController {
 	@RequestMapping(value = "/vms/unsub", method = RequestMethod.GET)
 	@ResponseBody
 	public String vmsUnSubRequest(@RequestParam("msisdn") String msisdn,
-			@RequestParam(value = "channel", defaultValue = "IVR") String channel) {
+			@RequestParam(value = "channel", defaultValue = "IVR") String channel,
+			@RequestParam(value = "appid", defaultValue = "AGR") String appId) {
 
 		log.info("UnSub Request|msisdn=" + msisdn);
 
@@ -99,7 +102,7 @@ public class CerebroSubController {
 
 		}
 
-		ActivationConfig actConfig = activationConfigRepo.getActivationConfig("VMS", user.getPackId());
+		ActivationConfig actConfig = activationConfigRepo.getActivationConfig(appId, user.getPackId());
 		HLRResponse hlrResp = hlrRequestProcessor.processRequest(msisdn, Constants.HLR_UNSUB);
 
 		if (hlrResp.getOutputMessage() != null && hlrResp.getOutputMessage().indexOf("SUCCESS") != -1) {
@@ -125,7 +128,7 @@ public class CerebroSubController {
 	@RequestMapping(value = "/api/sub", method = RequestMethod.GET)
 	@ResponseBody
 	public String vmsSubRequest(@RequestParam("msisdn") String msisdn,
-			@RequestParam(value = "appid", defaultValue = "VMS") String appId,
+			@RequestParam(value = "appid", defaultValue = "AGR") String appId,
 			@RequestParam(value = "pack", required = false) String packId,
 			@RequestParam(value = "channel", defaultValue = "IVR") String channel,
 			@RequestParam(value = "lang", defaultValue = "1") String lang) {
@@ -135,7 +138,7 @@ public class CerebroSubController {
 			log.info("msisdn=" + msisdn + ",appid=" + appId + ",pack=" + packId + ",channel=" + channel);
 			msisdn = msisdn.substring(msisdn.length() - 9);
 
-			if ("VMS".equals(appId)) {
+			if ("AGR".equals(appId) || "MM".equals(appId)) {
 				VmsUser user = vmsUserRepo.getUserDetails(msisdn);
 				if (user != null) {
 					return "" + Constants.ALREADY_SUB;
